@@ -20,17 +20,13 @@ const createItemSchema = Yup.object().shape({
 const SiteCatalogItemForm = ({ toggle, itemObject, siteId, setShowAlert }) => {
   const { item, itemAttributes, itemPrices } = itemObject;
   const initialValues = {
-    shortDescription: itemAttributes ? itemAttributes.shortDescription.values[0].value : item.shortDescription.values[0].value,
-    longDescription: itemAttributes
-      ? itemAttributes.longDescription && itemAttributes.longDescription.values.length > 0
-        ? itemAttributes.longDescription.values[0].value
-        : ''
-      : item.longDescription.values[0].value,
+    shortDescription: itemAttributes ? itemAttributes.shortDescription?.values?.[0]?.value || '' : item.shortDescription?.values?.[0]?.value || '',
+    longDescription: itemAttributes ? itemAttributes.longDescription?.values?.[0]?.value || '' : item.longDescription?.values?.[0]?.value || '',
     status: itemAttributes ? itemAttributes.status : item.status,
     price: itemPrices.length > 0 ? itemPrices[0].price : '',
     currency: itemPrices.length > 0 ? itemPrices[0].currency : '',
     effectiveDate: itemPrices.length > 0 ? itemPrices[0].effectiveDate : '',
-    imageUrl: itemAttributes ? itemAttributes.imageUrls[0] : '',
+    imageUrl: itemAttributes && itemAttributes.imageUrls && itemAttributes.imageUrls.length > 0 ? itemAttributes.imageUrls[0] : '',
     version: itemAttributes
       ? itemPrices.length > 0
         ? itemAttributes.version > itemPrices[0].version
@@ -38,7 +34,7 @@ const SiteCatalogItemForm = ({ toggle, itemObject, siteId, setShowAlert }) => {
           : itemPrices[0].version + 1
         : itemAttributes.version
       : item.version,
-    priceId: itemPrices.length > 0 ? itemPrices[0].priceId.priceCode : '',
+    priceId: itemPrices.length > 0 && itemPrices[0].priceId ? itemPrices[0].priceId.priceCode : '',
     groups: itemAttributes && itemAttributes.groups.length > 0 ? itemAttributes.groups[0].groupCode : ''
   };
 
@@ -68,7 +64,7 @@ const SiteCatalogItemForm = ({ toggle, itemObject, siteId, setShowAlert }) => {
         const { errors, touched, isValid, dirty } = formik;
         return (
           <Form>
-            <ModalHeader>{item.shortDescription.values[0].value}</ModalHeader>
+            <ModalHeader>{item.shortDescription?.values?.[0]?.value || 'Edit Catalog Item'}</ModalHeader>
             <ModalBody>
               <Row>
                 <Col>

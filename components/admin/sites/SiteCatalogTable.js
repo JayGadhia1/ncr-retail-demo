@@ -51,9 +51,9 @@ export default function SiteCatalogTable({ catalog, siteId, fetchUpdatedCatalog,
             {catalog.data.pageContent.map((item) => (
               <tr key={item.item.itemId.itemCode}>
                 <th scope="row">{item.item.itemId.itemCode}</th>
-                <td>{item.item.shortDescription.values[0].value}</td>
-                <td>{item.item.longDescription.values[0].value}</td>
-                <td>{item.item.merchandiseCategory.nodeId}</td>
+                <td>{item.item.shortDescription?.values?.[0]?.value || '-'}</td>
+                <td>{item.item.longDescription?.values?.[0]?.value || '-'}</td>
+                <td>{item.item.merchandiseCategory?.nodeId || '-'}</td>
                 <td>{item.itemAttributes && item.itemAttributes.groups.length > 0 && item.itemAttributes.groups[0].groupCode}</td>
                 <td>{item.itemPrices && item.itemPrices.length > 0 && item.itemPrices[0].price}</td>
                 <td>
