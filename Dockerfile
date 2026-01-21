@@ -11,6 +11,7 @@ RUN yarn install
 # Rebuild the source code only when needed
 FROM node:18-alpine AS builder
 WORKDIR /app
+ENV NODE_OPTIONS=--openssl-legacy-provider
 COPY . .
 COPY --from=deps /app/node_modules ./node_modules
 RUN yarn build
